@@ -1,4 +1,4 @@
-Cupcake app
+Solution code by learners for [Cupcake app](https://github.com/google-developer-training/basic-android-kotlin-compose-training-cupcake)
 =================================
 
 This app contains an order flow for cupcakes with options for quantity, flavor, and pickup date.
