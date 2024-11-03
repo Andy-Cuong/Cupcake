@@ -41,14 +41,14 @@ class OrderViewModel : ViewModel() {
     /**
      * Cupcake state for this order
      */
-    private val _uiState = MutableStateFlow(OrderUiState(pickupOptions = pickupOptions()))
-    val uiState: StateFlow<OrderUiState> = _uiState.asStateFlow()
+    private val _uiStateFlow = MutableStateFlow(OrderUiState(pickupOptions = pickupOptions()))
+    val uiStateFlow: StateFlow<OrderUiState> = _uiStateFlow.asStateFlow()
 
     /**
      * Set the quantity [numberCupcakes] of cupcakes for this order's state and update the price
      */
     fun setQuantity(numberCupcakes: Int) {
-        _uiState.update { currentState ->
+        _uiStateFlow.update { currentState ->
             currentState.copy(
                 quantity = numberCupcakes,
                 price = calculatePrice(quantity = numberCupcakes)
@@ -61,7 +61,7 @@ class OrderViewModel : ViewModel() {
      * Only 1 flavor can be selected for the whole order.
      */
     fun setFlavor(desiredFlavor: String) {
-        _uiState.update { currentState ->
+        _uiStateFlow.update { currentState ->
             currentState.copy(flavor = desiredFlavor)
         }
     }
@@ -70,7 +70,7 @@ class OrderViewModel : ViewModel() {
      * Set the [pickupDate] for this order's state and update the price
      */
     fun setDate(pickupDate: String) {
-        _uiState.update { currentState ->
+        _uiStateFlow.update { currentState ->
             currentState.copy(
                 date = pickupDate,
                 price = calculatePrice(pickupDate = pickupDate)
@@ -82,15 +82,15 @@ class OrderViewModel : ViewModel() {
      * Reset the order state
      */
     fun resetOrder() {
-        _uiState.value = OrderUiState(pickupOptions = pickupOptions())
+        _uiStateFlow.value = OrderUiState(pickupOptions = pickupOptions())
     }
 
     /**
      * Returns the calculated price based on the order details.
      */
     private fun calculatePrice(
-        quantity: Int = _uiState.value.quantity,
-        pickupDate: String = _uiState.value.date
+        quantity: Int = _uiStateFlow.value.quantity,
+        pickupDate: String = _uiStateFlow.value.date
     ): String {
         var calculatedPrice = quantity * PRICE_PER_CUPCAKE
         // If the user selected the first option (today) for pickup, add the surcharge
